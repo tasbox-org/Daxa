@@ -1,14 +1,6 @@
 find_package(Vulkan REQUIRED)
 
-include(FetchContent)
-
-FetchContent_Declare(
-    vma
-    GIT_REPOSITORY https://github.com/GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator
-    GIT_TAG        v3.1.0
-    SYSTEM
-)
-FetchContent_MakeAvailable(vma)
+find_package(VulkanMemoryAllocator CONFIG REQUIRED)
 
 if (DAXA_ENABLE_UTILS_PIPELINE_MANAGER_GLSLANG AND NOT TARGET glslang::glslang)
     option(ENABLE_OPT "" OFF)
@@ -16,13 +8,8 @@ if (DAXA_ENABLE_UTILS_PIPELINE_MANAGER_GLSLANG AND NOT TARGET glslang::glslang)
     set(ENABLE_GLSLANG_BINARIES OFF CACHE BOOL "" FORCE)
     set(ENABLE_SPVREMAPPER OFF CACHE BOOL "" FORCE)
     set(GLSLANG_TESTS OFF CACHE BOOL "" FORCE)
-    FetchContent_Declare(
-        glslang
-        GIT_REPOSITORY https://github.com/KhronosGroup/glslang.git
-        GIT_TAG        5398d55e33dff7d26fecdd2c35808add986c558c
-        #SYSTEM
-    )
-    FetchContent_MakeAvailable(glslang)
+
+    find_package(glslang CONFIG REQUIRED)
 endif()
 
 if (DAXA_ENABLE_TESTS AND NOT TARGET glfw)
@@ -30,15 +17,12 @@ if (DAXA_ENABLE_TESTS AND NOT TARGET glfw)
     option(GLFW_BUILD_DOCS "" OFF)
     option(GLFW_INSTALL "" OFF)
     option(GLFW_BUILD_EXAMPLES "" OFF)
-    FetchContent_Declare(
-        glfw
-        GIT_REPOSITORY https://github.com/glfw/glfw
-        GIT_TAG        3.4
-    )
-    FetchContent_MakeAvailable(glfw)
+    message(FATAL_ERROR "Tests not supported by vcpkg port")
 endif()
 
 if (DAXA_ENABLE_UTILS_IMGUI AND NOT TARGET imgui::imgui AND NOT TARGET implot::implot)
+    message(FATAL_ERROR "ImGui not supported by vcpkg port")
+
     FetchContent_Declare(
         imgui
         GIT_REPOSITORY https://github.com/ocornut/imgui
@@ -94,6 +78,8 @@ if (DAXA_ENABLE_UTILS_IMGUI AND NOT TARGET imgui::imgui AND NOT TARGET implot::i
 endif()
 
 if (DAXA_ENABLE_UTILS_PIPELINE_MANAGER_SLANG AND NOT TARGET slang::slang)
+    message(FATAL_ERROR "Slang not supported by vcpkg port")
+
     set(Slang_VERSION "2025.11")
     FetchContent_Declare(
         slang
@@ -184,6 +170,8 @@ if (DAXA_ENABLE_UTILS_PIPELINE_MANAGER_SLANG AND NOT TARGET slang::slang)
 endif()
 
 if (DAXA_ENABLE_UTILS_FSR3) # TODO: Add FSR3 support
+    message(FATAL_ERROR "FSR not supported by vcpkg port")
+
     FetchContent_Declare(
         ffx_sdk
         URL https://github.com/GPUOpen-LibrariesAndSDKs/FidelityFX-SDK/releases/download/v1.1.4/FidelityFX-SDK-v1.1.4.zip

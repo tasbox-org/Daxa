@@ -6,7 +6,7 @@ if(DAXA_ENABLE_UTILS_TASK_GRAPH)
     set(DAXA_ENABLE_UTILS_MEM true)
 endif()
 
-project(daxa VERSION 3.0.2)
+project(daxa VERSION 3.6.0)
 
 include("${CMAKE_CURRENT_LIST_DIR}/cmake/deps.cmake")
 
@@ -230,3 +230,18 @@ if(DAXA_ENABLE_TOOLS)
     target_compile_definitions(daxa_tools_compile_resource_viewer_shaders PRIVATE DAXA_COMPILE_RESOURCE_VIEWER_SHADERS=true)
     target_link_libraries(daxa_tools_compile_resource_viewer_shaders PRIVATE daxa::daxa GPUOpen::VulkanMemoryAllocator Vulkan::Vulkan)
 endif()
+
+install(
+    TARGETS daxa
+    EXPORT daxa
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+)
+install(
+    EXPORT daxa
+    DESTINATION share/daxa
+    FILE daxaConfig.cmake
+    NAMESPACE daxa::
+)
+install(DIRECTORY ${PROJECT_SOURCE_DIR}/include/ TYPE INCLUDE)
